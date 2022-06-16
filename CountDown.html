@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        * {
+            padding: 0%;
+            margin: 0%;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body {
+            background-image: linear-gradient(to bottom, rgb(28, 42, 82), white);
+        }
+        header {
+            height: 80px;
+            color: rgb(255, 255, 255);
+            font-size: 30px;
+            text-align: center;
+            padding-top: 20px;
+        }
+        .main {
+            width: 100%;
+            height: 43vh;
+        }
+        #timer {
+            display: inline-block;
+            margin-left: 10.5%;
+        }
+        #timerblock {
+            display: flex;
+        }
+        #endtime {
+            opacity: 0.8;
+            display: block;
+            margin-left: auto;
+            margin-right: 1%;
+            width: 450px;
+            height: 70px;
+            font-size: 40px;
+            background: rgb(30, 31, 99);
+            border: none;
+            border-radius: 10% 10% 10% 10%;
+            color: aliceblue;
+        }
+        #startbtn {
+            opacity: 0.8;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 350px;
+            height: 70px;
+            font-size: 40px;
+            background: rgb(30, 31, 99);
+            border: none;
+            border-radius: 10% 10% 10% 10%;
+            color: aliceblue;
+        }
+        h3 {
+            text-align: center;
+            color: rgb(7, 9, 85);
+        }
+        p {
+            color: rgb(31, 30, 92);
+            font-size: 45px;
+            font-weight: bold;
+            text-align: center;
+            padding-top: 75px;
+        }
+        .count {
+            display: inline-block;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(200deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.5));
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            text-align: center;
+            border-radius: 25%;
+            padding-top: 25px;
+            color: white;
+            font-size: 100px
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h2>JavaScript Timer</h2>
+    </header>
+    <div id="timerblock">
+        <input type="datetime-local" id="endtime"><br>
+        <button id="startbtn" onclick="Count()">Start CountDown</button>
+    </div>
+
+    <p>Time Remaining</p>
+
+    <p id="demo"></p>
+    <div class="main">
+        <div id="timer" class="daysblock">
+            <h3>Days</h3>
+            <div class="count" id="days"></div>
+        </div>
+        <div id="timer" class="hoursblock">
+            <h3>Hours</h3>
+            <div class="count" id="hours"></div>
+        </div>
+        <div id="timer" class="minutesblock">
+            <h3>Minutes</h3>
+            <div class="count" id="minutes"></div>
+        </div>
+        <div id="timer" class="secondsblock">
+            <h3>Seconds</h3>
+            <div class="count" id="second"></div>
+        </div>
+
+    </div>
+
+    <script>
+        function Count() {
+            let aud = new Audio('clock ticking sound effect.mp3');
+            let id = null;
+            id = setInterval(myTimer, 1000);
+            clearInterval(id);
+            var futredate = new Date(document.getElementById("endtime").value);
+            let alerteffct = false;
+            let redalert = 11;
+            let alertdiv = document.getElementsByClassName('count');
+            id = setInterval(myTimer, 1000);
+            function myTimer() {
+                aud.play()
+                var current = new Date();
+                var dif = futredate - current;
+                const dy = Math.floor(dif / 1000 / 60 / 60 / 24);
+                const hr = Math.floor(dif / 1000 / 60 / 60) % 24;
+                const mn = Math.floor(dif / 1000 / 60) % 60;
+                const sc = Math.floor(dif / 1000) % 60;
+
+                if (alerteffct == true) {
+                    for (let i = 0; i < alertdiv.length; i++) {
+                        alertdiv[i].style.color = "red";
+                    }
+                    alerteffct = false;
+                } else {
+                    for (let i = 0; i < alertdiv.length; i++) {
+                        alertdiv[i].style.color = "white";
+                    }
+                }
+
+                document.getElementById('days').innerHTML = dy;
+                document.getElementById('hours').innerHTML = hr;
+                document.getElementById('minutes').innerHTML = mn;
+                document.getElementById('second').innerHTML = sc;
+                if (mn == 0 && sc == 0) {
+                    aud.pause()
+                    clearInterval(id);
+                }
+                if (sc == redalert && mn==0) {
+                    alerteffct = true;
+                    redalert -= 2;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
